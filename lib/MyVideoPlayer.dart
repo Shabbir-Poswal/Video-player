@@ -19,6 +19,10 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
       ..initialize().then((_) {
         setState(() {});
       });
+
+    controller!.setLooping(false);
+
+    controller!.play();
   }
 
   @override
@@ -27,6 +31,8 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
     super.dispose();
   }
 
+  PageController pageController = PageController(initialPage: 0);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,34 +40,20 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
         title: Text("Video Player App"),
         centerTitle: true,
       ),
-      body: ListView(
+      body: PageView(
+        scrollDirection: Axis.vertical,
+        controller: pageController,
         children: [
-          controller!.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: controller!.value.aspectRatio,
-                  child: VideoPlayer(controller!),
-                )
-              : Container(
-                  height: 400,
-                  width: double.infinity,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
+          Container(
+            child: VideoPlayer(controller!),
+          ),
+          Container(
+            child: VideoPlayer(controller!),
+          ),
+          Container(
+            color: Colors.blue,
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (controller!.value.isPlaying) {
-              controller!.pause();
-            } else {
-              controller!.play();
-            }
-          });
-        },
-        child:
-            Icon(controller!.value.isPlaying ? Icons.pause : Icons.play_arrow),
       ),
     );
   }
