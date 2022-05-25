@@ -20,7 +20,7 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
         setState(() {});
       });
 
-    controller!.setLooping(false);
+    controller!.setLooping(true);
 
     controller!.play();
   }
